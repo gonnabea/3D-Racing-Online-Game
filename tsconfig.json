@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/33290
+    // typegoose 설정을 위함: 무슨 뜻일까?
+    "skipLibCheck": true 
+  }
+}
