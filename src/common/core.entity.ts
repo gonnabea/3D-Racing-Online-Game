@@ -4,6 +4,8 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { prop } from '@typegoose/typegoose';
 import { v4 as uuid } from 'uuid';
 
+const today = new Date();
+
 @ObjectType()
 export class CoreEntity {
   @Field(type => String, { defaultValue: uuid(), nullable: true })
@@ -11,10 +13,11 @@ export class CoreEntity {
   id?: string;
 
   @Field(type => Number, {
-    defaultValue: Date.now(),
+    // https://stackoverflow.com/questions/3066586/get-string-in-yyyymmdd-format-from-js-date-object
+    defaultValue: today.toISOString().substring(0, 10),
   })
   @prop({
-    default: Date.now(),
+    default: today.toISOString().substring(0, 10),
   })
-  createdAt?: number;
+  createdAt?: string;
 }

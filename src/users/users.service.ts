@@ -71,10 +71,10 @@ export class UsersService {
           error: 'No User Data sent.',
         };
       }
-    } catch {
+    } catch(error) {
       return {
         ok: false,
-        error: 'Error Occured.',
+        error,
       };
     }
   }
