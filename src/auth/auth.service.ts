@@ -29,7 +29,7 @@ export class AuthService {
   }
 
   public async login({ email, password }: LoginInput): Promise<any | { status: number }> {
-    const user = await this.user.findOne({ email });
+    const user = await this.user.findOne({ email }); // 이메일로 유저 찾기
 
     // 패스워드 체크
     if(user.password !== password){

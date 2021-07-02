@@ -5,6 +5,7 @@ import { v4 as UUID } from 'uuid';
 import { CreateUserInput, CreateUserOutput } from './dtos/create-user.dto';
 import { FindByEmailInput, FindByEmailOutput } from './dtos/find-user.dto';
 import { GetAllUsersOutput } from './dtos/get-all-user.dto';
+import { PostAvatarImgInput, PostAvatarImgOutput } from './dtos/user-avatar.dto';
 import { User } from './entities/user.schema';
 
 @Injectable()
@@ -76,6 +77,18 @@ export class UsersService {
         ok: false,
         error,
       };
+    }
+  }
+
+  async postAvatarImg(postAvatarImgInput:PostAvatarImgInput): Promise<PostAvatarImgOutput> {
+    try{
+      // 현재 로그인 중인 유저 어떻게 정의?
+    }catch(e){
+      console.log(e);
+      return {
+        ok: false,
+        error: "Cannot change avatar img."
+      }
     }
   }
 }
