@@ -40,7 +40,7 @@ export class User extends CoreEntity {
   avatarUrl?: string;
 
   // 현재 접속 중인 게임방
-  @Field(type => GameRoom, { nullable: true })
+  @Field(type => GameRoom, { nullable: true})
   @prop()
   gameRoom?: GameRoom;
 }
