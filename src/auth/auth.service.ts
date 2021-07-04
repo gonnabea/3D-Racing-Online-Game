@@ -7,10 +7,10 @@ import {
   CreateUserInput,
   CreateUserOutput,
 } from 'src/users/dtos/create-user.dto';
-import { CoreOutput } from 'src/common/output.dto';
 import { LoginInput } from './dtos/login.dto';
 import { InjectModel } from 'nestjs-typegoose';
 import { ReturnModelType } from '@typegoose/typegoose';
+import { request } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -26,6 +26,16 @@ export class AuthService {
     if (validatedUser) {
       return validatedUser;
     }
+  }
+
+  // 로그인 된 유저정보 가져오기
+  public async verifyUser() {
+    jwt.verify(request.cookies['token'], 'YOUR SECRET', function(err, decodedToken) {
+      if(err) { console.log(err)}
+      else {
+        request.user = decodedToken.id;   // Add to req object
+      }
+    });
   }
 
   public async login({ email, password }: LoginInput): Promise<any | { status: number }> {

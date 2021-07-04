@@ -18,7 +18,7 @@ export class UsersResolver {
 
   // 유저 아바타 이미지 등록 & 변경.
   @Mutation(returns => PostAvatarImgOutput)
-  async postAvatarImg(): Promise<PostAvatarImgOutput> {
-    return await this.usersService.postAvatarImg(PostAvatarImgInput);
+  async postAvatarImg(postAvatarImgInput:PostAvatarImgInput): Promise<PostAvatarImgOutput> {
+    return await this.usersService.postAvatarImg(postAvatarImgInput);
   }
 }

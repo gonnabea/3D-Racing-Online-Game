@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ReturnModelType } from '@typegoose/typegoose';
+import { request } from 'express';
 import { InjectModel } from 'nestjs-typegoose';
 import { v4 as UUID } from 'uuid';
 import { CreateUserInput, CreateUserOutput } from './dtos/create-user.dto';
@@ -83,12 +84,17 @@ export class UsersService {
   async postAvatarImg(postAvatarImgInput:PostAvatarImgInput): Promise<PostAvatarImgOutput> {
     try{
       // 현재 로그인 중인 유저 어떻게 정의?
-    }catch(e){
-      console.log(e);
+      const loggedUserId = request.user;
+      if(!loggedUserId){
+        console.log("로그인 된 유저가 없습니다.");
+      }
+      console.log(loggedUserId)
+    }catch(error){
+      console.log(error);
       return {
         ok: false,
         error: "Cannot change avatar img."
-      }
+      };
     }
   }
 }
