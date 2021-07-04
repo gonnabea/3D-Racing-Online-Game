@@ -29,13 +29,17 @@ export class AuthService {
   }
 
   // 로그인 된 유저정보 가져오기
-  public async verifyUser() {
-    jwt.verify(request.cookies['token'], 'YOUR SECRET', function(err, decodedToken) {
-      if(err) { console.log(err)}
-      else {
-        request.user = decodedToken.id;   // Add to req object
-      }
-    });
+  // https://stackoverflow.com/questions/47240564/node-js-jwt-get-current-user/47240613
+  public async getLoggedUser(accessToken) {
+    try{
+      const decoded = jwt.decode(accessToken)
+      console.log(decoded)
+      return decoded;
+    }
+    catch(error){
+      console.log(error)
+    }
+    
   }
 
   public async login({ email, password }: LoginInput): Promise<any | { status: number }> {
@@ -56,15 +60,17 @@ export class AuthService {
         if (!userData) {
           return {
             ok: false,
-            error: `Invalid email/password. (${HttpStatus.BAD_REQUEST})`,
+            error: `Invalid email. (${HttpStatus.BAD_REQUEST})`,
           };
         }
         // const payload = { id: userData.id, nickname: userData.nickname };
-        const payload = { nickname: userData.nickname };
+        const payload = { nickname: userData.nickname, email:userData.email, id:userData.id };
   
         const accessToken = jwt.sign(payload, this.config.get('SECRET'), {
           expiresIn: this.config.get('EXPIRE'),
         });
+        
+        this.getLoggedUser(accessToken)
         return {
           ok: true,
           token: accessToken,

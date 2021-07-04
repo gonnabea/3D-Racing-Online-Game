@@ -50,6 +50,7 @@ export class UsersService {
     createUserInput: CreateUserInput,
   ): Promise<CreateUserOutput> {
     try {
+      
       const user = await this.user.findOne({ email: createUserInput.email });
       console.log(user);
       // 입력된 이메일로 가입한 유저가 있는 지 판별.
@@ -88,7 +89,9 @@ export class UsersService {
       if(!loggedUserId){
         console.log("로그인 된 유저가 없습니다.");
       }
-      console.log(loggedUserId)
+      else{
+        console.log(loggedUserId)
+      }
     }catch(error){
       console.log(error);
       return {
