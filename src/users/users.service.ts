@@ -8,6 +8,7 @@ import { FindByEmailInput, FindByEmailOutput } from './dtos/find-user.dto';
 import { GetAllUsersOutput } from './dtos/get-all-user.dto';
 import { PostAvatarImgInput, PostAvatarImgOutput } from './dtos/user-avatar.dto';
 import { User } from './entities/user.schema';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class UsersService {
@@ -82,10 +83,32 @@ export class UsersService {
     }
   }
 
-  async postAvatarImg(postAvatarImgInput:PostAvatarImgInput): Promise<PostAvatarImgOutput> {
+   // 로그인 된 유저정보 가져오기
+  // https://stackoverflow.com/questions/47240564/node-js-jwt-get-current-user/47240613
+  async getLoggedUser(accessToken:string) {
+    try{
+      const decodedUser = jwt.decode(accessToken)
+      console.log(decodedUser)
+      
+      return {
+        ok:true,
+        user:decodedUser
+      }
+    }
+    catch(error){
+      return {
+        ok:false,
+        error
+      }
+    }
+    
+  }
+  
+
+  async postAvatarImg({accessToken, avatarImg}:PostAvatarImgInput): Promise<PostAvatarImgOutput> {
     try{
       // 현재 로그인 중인 유저 어떻게 정의?
-      const loggedUserId = request.user;
+      const loggedUserId = await this.getLoggedUser(accessToken)
       if(!loggedUserId){
         console.log("로그인 된 유저가 없습니다.");
       }

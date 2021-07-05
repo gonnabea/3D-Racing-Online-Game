@@ -6,6 +6,9 @@ import { User } from '../entities/user.schema';
 export class PostAvatarImgInput extends CoreOutput {
   @Field(type => String, { defaultValue:"./resources/default_avatar.jpg", nullable:true })
   avatarImg?:string;
+
+  @Field(tyoe => String)
+  accessToken:string;
 }
 
 @ObjectType()

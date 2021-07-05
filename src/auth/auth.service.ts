@@ -32,12 +32,19 @@ export class AuthService {
   // https://stackoverflow.com/questions/47240564/node-js-jwt-get-current-user/47240613
   public async getLoggedUser(accessToken) {
     try{
-      const decoded = jwt.decode(accessToken)
-      console.log(decoded)
-      return decoded;
+      const decodedUser = jwt.decode(accessToken)
+      console.log(decodedUser)
+      
+      return {
+        ok:true,
+        user:decodedUser
+      }
     }
     catch(error){
-      console.log(error)
+      return {
+        ok:false,
+        error
+      }
     }
     
   }
