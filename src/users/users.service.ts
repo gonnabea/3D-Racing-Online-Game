@@ -89,17 +89,12 @@ export class UsersService {
     try{
       const decodedUser = jwt.decode(accessToken)
       console.log(decodedUser)
-      
-      return {
-        ok:true,
-        user:decodedUser
+      if(typeof decodedUser === 'string'){
+        return JSON.parse(decodedUser);
       }
     }
     catch(error){
-      return {
-        ok:false,
-        error
-      }
+      console.log(error)
     }
     
   }
@@ -108,12 +103,16 @@ export class UsersService {
   async postAvatarImg({accessToken, avatarImg}:PostAvatarImgInput): Promise<PostAvatarImgOutput> {
     try{
       // 현재 로그인 중인 유저 어떻게 정의?
-      const loggedUserId = await this.getLoggedUser(accessToken)
-      if(!loggedUserId){
+      const loggedUser = await this.getLoggedUser(accessToken)
+      if(!loggedUser){
         console.log("로그인 된 유저가 없습니다.");
       }
       else{
-        console.log(loggedUserId)
+        console.log(loggedUser)
+        const userId = loggedUser.id;
+        const user = await this.user.findById(userId)
+        user.avatarUrl = avatarImg;
+        user.save();
       }
     }catch(error){
       console.log(error);
