@@ -88,11 +88,10 @@ export class UsersService {
   async getLoggedUser(accessToken:string) {
     try{
       const decodedUser = jwt.decode(accessToken)
-      console.log(typeof decodedUser)
-      if(decodedUser){
-        console.log("asdsadadsd")
-        return JSON.parse(decodedUser);
-      }
+      console.log(decodedUser)
+      return decodedUser
+      
+      
     }
     catch(error){
       console.log(error)
@@ -104,18 +103,28 @@ export class UsersService {
   async postAvatarImg({accessToken, avatarImgUrl}:PostAvatarImgInput): Promise<PostAvatarImgOutput> {
     try{
       // 현재 로그인 중인 유저 불러오기
-      const loggedUser = await this.getLoggedUser(accessToken)
-      console.log(loggedUser)
+      const loggedUser = await this.getLoggedUser(accessToken);
+
       if(!loggedUser){
         console.log("로그인 된 유저가 없습니다.");
       }
       else{
-        console.log(loggedUser)
-        const userId = loggedUser.id;
-        console.log(userId)
-        const user = await this.user.findById(userId)
-        user.avatarUrl = avatarImgUrl;
-        user.save();
+        if(typeof loggedUser !== 'string'){
+
+          const user = await this.user.findOne({email:loggedUser.email});
+          user.avatarUrl = avatarImgUrl;
+          user.save();
+
+          return {
+            ok:true
+          }
+        }
+        else{
+          return{
+            ok:false,
+            error:'Cannot load logged user data.'
+          }
+        }
       }
     }catch(error){
       console.log(error);
