@@ -83,13 +83,14 @@ export class UsersService {
     }
   }
 
-   // 로그인 된 유저정보 가져오기
+   // 로그인 된 유저정보 불러오기
   // https://stackoverflow.com/questions/47240564/node-js-jwt-get-current-user/47240613
   async getLoggedUser(accessToken:string) {
     try{
       const decodedUser = jwt.decode(accessToken)
-      console.log(decodedUser)
-      if(typeof decodedUser === 'string'){
+      console.log(typeof decodedUser)
+      if(decodedUser){
+        console.log("asdsadadsd")
         return JSON.parse(decodedUser);
       }
     }
@@ -100,18 +101,20 @@ export class UsersService {
   }
   
 
-  async postAvatarImg({accessToken, avatarImg}:PostAvatarImgInput): Promise<PostAvatarImgOutput> {
+  async postAvatarImg({accessToken, avatarImgUrl}:PostAvatarImgInput): Promise<PostAvatarImgOutput> {
     try{
-      // 현재 로그인 중인 유저 어떻게 정의?
+      // 현재 로그인 중인 유저 불러오기
       const loggedUser = await this.getLoggedUser(accessToken)
+      console.log(loggedUser)
       if(!loggedUser){
         console.log("로그인 된 유저가 없습니다.");
       }
       else{
         console.log(loggedUser)
         const userId = loggedUser.id;
+        console.log(userId)
         const user = await this.user.findById(userId)
-        user.avatarUrl = avatarImg;
+        user.avatarUrl = avatarImgUrl;
         user.save();
       }
     }catch(error){
