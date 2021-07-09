@@ -8,23 +8,23 @@ import { User } from 'src/users/entities/user.schema';
 @ObjectType('GameRoom')
 @InputType('GameRoomInput')
 export class GameRoom extends CoreEntity {
-  @Field(type => [User])
+  @Field(type => [User], {nullable:true})
   @prop()
   userList: User[];
 
   // 게임 진행 중 or not
-  @Field(type => Boolean, {defaultValue:false})
+  @Field(type => Boolean, {defaultValue:false, nullable:true})
   @prop(type => Boolean)
-  playing: boolean;
+  playing?: boolean;
 
   // 최대 유저 입장 수
-  @Field(type => Number)
+  @Field(type => Number, {defaultValue:1, nullable:true})
   @prop(type => Number)
-  maximumUserNum: number;
+  maximumUserNum?: number;
 
   @Field(type => String)
   @prop(type => String)
-  roomname: string;
+  roomName: string;
 
   // !! 관계 설정 어떻게 하는지 알아보기 !!
   // @Field(type => ChatRoom)

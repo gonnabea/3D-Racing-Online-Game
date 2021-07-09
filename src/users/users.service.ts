@@ -85,7 +85,7 @@ export class UsersService {
 
    // 로그인 된 유저정보 불러오기
   // https://stackoverflow.com/questions/47240564/node-js-jwt-get-current-user/47240613
-  async getLoggedUser(accessToken:string) {
+  static async getLoggedUser(accessToken:string) {
     try{
       const decodedUser = jwt.decode(accessToken)
       console.log(decodedUser)
@@ -103,10 +103,13 @@ export class UsersService {
   async postAvatarImg({accessToken, avatarImgUrl}:PostAvatarImgInput): Promise<PostAvatarImgOutput> {
     try{
       // 현재 로그인 중인 유저 불러오기
-      const loggedUser = await this.getLoggedUser(accessToken);
+      const loggedUser = await UsersService.getLoggedUser(accessToken);
 
       if(!loggedUser){
-        console.log("로그인 된 유저가 없습니다.");
+        return {
+          ok: false,
+          error: "로그인 된 유저가 없습니다."
+        }
       }
       else{
         if(typeof loggedUser !== 'string'){

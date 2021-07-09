@@ -7,8 +7,11 @@ import { GameRoom } from '../schemas/game-room.schema';
 @InputType()
 export class CreateGameRoomInput extends PickType(GameRoom, [
   'maximumUserNum',
-  'roomname'
-]) {}
+  'roomName',
+]) {
+    @Field(tyoe => String)
+    accessToken:string;
+}
 
 @ObjectType()
 export class CreateGameRoomOutput extends CoreOutput {}
