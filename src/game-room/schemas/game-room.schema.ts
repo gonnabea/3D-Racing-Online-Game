@@ -13,7 +13,7 @@ export class GameRoom extends CoreEntity {
   userList: User[];
 
   // 게임 진행 중 or not
-  @Field(type => Boolean)
+  @Field(type => Boolean, {defaultValue:false})
   @prop(type => Boolean)
   playing: boolean;
 
@@ -21,6 +21,10 @@ export class GameRoom extends CoreEntity {
   @Field(type => Number)
   @prop(type => Number)
   maximumUserNum: number;
+
+  @Field(type => String)
+  @prop(type => String)
+  roomname: string;
 
   // !! 관계 설정 어떻게 하는지 알아보기 !!
   // @Field(type => ChatRoom)

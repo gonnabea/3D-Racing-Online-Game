@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { InjectModel } from 'nestjs-typegoose';
+import { CreateGameRoomInput, CreateGameRoomOutput } from './dtos/gameRoom.dto';
 import { GameRoom } from './schemas/game-room.schema';
 
 @Injectable()
@@ -11,6 +12,10 @@ export class GameRoomService {
   ) {}
   async findAll(): Promise<GameRoom[]> {
     return await this.gameRoomModel.find().exec();
+  }
+
+  async create(createGameRoomInput:CreateGameRoomInput): Promise<CreateGameRoomOutput> {
+
   }
 
   async remove(gameRoomId): Promise<boolean> {
