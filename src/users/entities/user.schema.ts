@@ -3,6 +3,11 @@ import { getModelForClass, prop } from '@typegoose/typegoose';
 import { CoreEntity } from 'src/common/core.entity';
 import { GameRoom } from 'src/game-room/schemas/game-room.schema';
 
+export enum UserRole {
+  Player = 'Player',
+  Operator = 'Operator'
+}
+
 @InputType('UserInputType')
 @ObjectType()
 export class User extends CoreEntity {

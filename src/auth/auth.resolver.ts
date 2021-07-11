@@ -25,12 +25,4 @@ export class AuthResolver {
   ): Promise<CreateUserOutput> {
     return this.authService.register(createUserInput);
   }
-
-  // 리턴 타입 적용 필요
-  @Query(returns => GetLoggedUserOutput)
-  async getLoggedUser(
-    @Args('input') getLoggedUserInput: GetLoggedUserInput
-  ) {
-    return this.authService.getLoggedUser(getLoggedUserInput)
-  }
 }
