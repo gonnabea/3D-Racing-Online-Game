@@ -11,6 +11,7 @@ import { LoginInput } from './dtos/login.dto';
 import { InjectModel } from 'nestjs-typegoose';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { request } from 'express';
+import { RemoveUserInput, RemoveUserOutput } from './dtos/removeUser.dto';
 
 @Injectable()
 export class AuthService {
@@ -92,5 +93,15 @@ export class AuthService {
     createUserInput: CreateUserInput,
   ): Promise<CreateUserOutput> {
     return await this.usersService.createUser(createUserInput);
+  }
+
+  public async removeUser(
+    {token}: RemoveUserInput
+  ): Promise<RemoveUserOutput> {
+    const loggedUser = await this.getLoggedUser(token);
+    await this.user.remove(loggedUser)
+    return {
+      ok: true
+    }
   }
 }

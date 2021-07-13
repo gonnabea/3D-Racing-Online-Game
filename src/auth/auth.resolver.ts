@@ -7,8 +7,8 @@ import {
 } from 'src/users/dtos/create-user.dto';
 import { User } from 'src/users/entities/user.schema';
 import { AuthService } from './auth.service';
-import { GetLoggedUserInput, GetLoggedUserOutput } from './dtos/getLoggedUser.dto';
 import { LoginInput, LoginOutput } from './dtos/login.dto';
+import { RemoveUserInput, RemoveUserOutput } from './dtos/removeUser.dto';
 
 @Resolver(of => User)
 export class AuthResolver {
@@ -24,5 +24,12 @@ export class AuthResolver {
     @Args('input') createUserInput: CreateUserInput,
   ): Promise<CreateUserOutput> {
     return this.authService.register(createUserInput);
+  }
+
+  @Mutation(returns => RemoveUserOutput)
+  async removeUser(
+    @Args('input') removeUserInput:RemoveUserInput
+  ): Promise<RemoveUserOutput> {
+    return this.authService.removeUser(removeUserInput)
   }
 }
