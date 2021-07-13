@@ -84,6 +84,7 @@ export class UsersService {
   }
 
    // 로그인 된 유저정보 불러오기
+   // graqhql context decorator로 대체
   // https://stackoverflow.com/questions/47240564/node-js-jwt-get-current-user/47240613
   static async getLoggedUser(accessToken:string) {
     try{
