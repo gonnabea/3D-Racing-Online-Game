@@ -34,18 +34,12 @@ export class AuthService {
   public async getLoggedUser(accessToken) {
     try{
       const decodedUser = jwt.decode(accessToken)
-      console.log(decodedUser)
       
-      return {
-        ok:true,
-        user:decodedUser
-      }
+      return decodedUser
+      
     }
     catch(error){
-      return {
-        ok:false,
-        error
-      }
+      console.log(error)
     }
     
   }
@@ -98,10 +92,27 @@ export class AuthService {
   public async removeUser(
     {token}: RemoveUserInput
   ): Promise<RemoveUserOutput> {
-    const loggedUser = await this.getLoggedUser(token);
-    await this.user.remove(loggedUser)
-    return {
-      ok: true
+    try{
+      const loggedUser = await this.getLoggedUser(token);
+      console.log(loggedUser)
+      if(loggedUser && typeof loggedUser !== 'string'){
+        await this.user.findOneAndRemove({email:loggedUser.email})
+        return {
+          ok: true
+        }
+      }
+      else{
+        return {
+          ok: false,
+          error: "No user to delete."
+        }
+      }
+    }
+    catch(error){
+      return {
+        ok: false,
+        error
+      }
     }
   }
 }
